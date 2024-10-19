@@ -9,3 +9,4 @@ altair
 nltk
 wordcloud
 statsmodels
+openpyxl

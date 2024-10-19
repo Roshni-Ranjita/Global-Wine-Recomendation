@@ -29,7 +29,7 @@ global_wines.columns = global_wines.columns.str.lower()
 df_wine = pd.merge(winemag, global_wines, on=['province', 'variety', 'winery'], how='inner')
 # Dropping irrelevant columns and editing the proce column to float
 df_wine_copy1= df_wine.copy()
-df_wine_copy1['price'] = df_wine_copy1['price'].replace('[\$,]', '', regex=True).astype(float)
+df_wine_copy1['price'] = df_wine_copy1['price'].replace(r'[\$,]', '', regex=True).astype(float)
 df_wine_copy1.drop(['designation_x','designation_y', 'region_2', 'county'], axis=1, inplace= True)
 
 # Imputing values based on most frequently occuring values in a group of a dataset

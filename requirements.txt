@@ -1,24 +1,11 @@
-# Streamlit
-streamlit==1.20.0  # Adjust to the latest version if needed
-
-# Data manipulation and analysis
-numpy==1.23.0      # Adjust to the latest version if needed
-pandas==1.5.0      # Adjust to the latest version if needed
-
-# Data visualization
-plotly==5.11.0     # Adjust to the latest version if needed
-seaborn==0.12.0    # Adjust to the latest version if needed
-matplotlib==3.6.0   # Adjust to the latest version if needed
-altair==4.2.0      # Adjust to the latest version if needed
-
-# Machine Learning
-scikit-learn==1.2.0  # Adjust to the latest version if needed
-
-# Natural Language Processing
-nltk==3.7          # Adjust to the latest version if needed
-wordcloud==1.8.2    # Adjust to the latest version if needed
-
-# Statistical modeling
-statsmodels==0.13.5  # Adjust to the latest version if needed
-
-# For additional functionality
+streamlit
+numpy
+pandas
+plotly
+seaborn
+matplotlib
+scikit-learn
+altair
+nltk
+wordcloud
+statsmodels

@@ -1,0 +1,13 @@
+streamlit
+numpy
+pandas
+plotly
+base64
+seaborn
+matplotlib
+sklearn
+altair
+re
+nltk
+wordcloud
+statsmodels

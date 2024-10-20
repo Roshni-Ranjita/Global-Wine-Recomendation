@@ -17,48 +17,21 @@ from nltk.corpus import stopwords
 from wordcloud import WordCloud
 import statsmodels.api as sm
 
+
 # Reading Dataframe
 # Winemag
-winemag1 = pd.read_csv('Datas/winemg-data/winemag-data_first150k.csv', index_col=0)
-winemag2 = pd.read_csv('Datas/winemg-data/winemag-data_first150k.csv', index_col=0)
-winemag = pd.concat([winemag1, winemag2], ignore_index=True)
-winemag= winemag.drop_duplicates()
+winemag= pd.read_csv('Datas/winemeg.csv').iloc[:,1:]
 # Global Wines
-global_wines= pd.read_excel('Datas/global_wines/Wines.xlsx')
-global_wines.columns = global_wines.columns.str.lower()
-df_wine = pd.merge(winemag, global_wines, on=['province', 'variety', 'winery'], how='inner')
-# Dropping irrelevant columns and editing the proce column to float
-df_wine_copy1= df_wine.copy()
-df_wine_copy1['price'] = df_wine_copy1['price'].replace(r'[\$,]', '', regex=True).astype(float)
-df_wine_copy1.drop(['designation_x','designation_y', 'region_2', 'county'], axis=1, inplace= True)
-
-# Imputing values based on most frequently occuring values in a group of a dataset
-grouping_cols = ['province', 'variety', 'winery', 'country']
-for col in df_wine_copy1.columns:
-    if df_wine_copy1[col].isnull().any():  # Check if the column has missing values
-        most_frequent = df_wine_copy1.groupby(grouping_cols)[col].agg(lambda x: x.mode()[0] if not x.mode().empty else np.nan)
-        # Map the most frequent values back to the original DataFrame
-        df_wine_copy1[col] = df_wine_copy1[col].fillna(df_wine_copy1[grouping_cols].agg(tuple, axis=1).map(most_frequent))
-
-# Apply label encoder
-df_wine_copy = df_wine_copy1.copy()
-label_encoders = {}
-categorical_cols = ['description', 'province', 'region_1', 'variety', 'winery', 'vintage', 'country', 'title']
-
-for col in categorical_cols:
-    le = LabelEncoder()
-    df_wine_copy[col] = le.fit_transform(df_wine_copy[col].astype(str))
-    label_encoders[col] = le
-
-
-columns_for_imputation = ['region_1', 'price']
-# Applying KNN Imputation for missing values
-imputer = KNNImputer(n_neighbors=5)
-df_wine_copy[columns_for_imputation] = imputer.fit_transform(df_wine_copy[columns_for_imputation])
-
+global_wines= pd.read_excel('Datas/global_wines.xlsx')
+# Raw merged data without imputation
+df_wine = pd.read_csv('Datas/Raw_Merged.csv').iloc[:,1:]
+# Merged data with Basic imputation
+df_wine_copy1= pd.read_csv('Datas/Basic_Imputation_data.csv').iloc[:,1:]
+# Merged data Encoded
+df_wine_copy= pd.read_csv('Datas/Encoded_Dataset.csv').iloc[:,1:]
+# Final Merged data basic and KNN imputation
 df= pd.read_csv('Datas/Final_Dataset.csv').iloc[:,1:]
-df['vintage'] = pd.to_datetime(df['vintage'], errors='coerce')
-df['vintage_year'] = df['vintage'].dt.year
+
 
 
 
@@ -322,7 +295,7 @@ elif options == "Visualization":
     st.write("##### Relationship between different features: ")
     st.write("##### Categorical features: ")
     # Define categorical columns
-    categorical_cols = ['description', 'province', 'region_1', 'variety', 'winery', 'vintage', 'country', 'title']
+    categorical_cols = ['description', 'province', 'region_1', 'variety', 'winery',  'country', 'title']
 
     # Create an empty DataFrame to store mutual information
     mutual_info = pd.DataFrame(index=categorical_cols, columns=categorical_cols)

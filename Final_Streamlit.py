@@ -435,7 +435,9 @@ elif options == "Visualization":
     selected_variety = st.selectbox("Select Wine Variety:", varieties, index=varieties.index(default_variety))
 
     # Filter the data based on the selected variety
-    filtered_data = df[df['variety'] == selected_variety].sample(n=1000, random_state=42)
+    filtered_data = df[df['variety'] == selected_variety]
+    if len(filtered_data) > 1000:
+        filtered_data = filtered_data.sample(n=1000, random_state=42)
 
     # Create a scatter plot for points vs. price, colored by country
     scatter = alt.Chart(filtered_data).mark_circle(size=60).encode(
